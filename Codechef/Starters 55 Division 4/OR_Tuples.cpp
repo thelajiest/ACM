@@ -27,6 +27,7 @@ int main() {
                             res++;
             ans *= res;
         }
+
         cout << ans << '\n';
     }
 }

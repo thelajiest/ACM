@@ -1,0 +1,1 @@
+{"name":"Local: D","url":"e:\\acm\\ACM\\2022牛客多校\\Contest7\\D.cpp","tests":[{"id":1662993293520,"input":"5\n5 5\n2 3\n5 10\n2197525579 1145141\n91 65","output":"51\n12\n228\n438744975\n34722"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\acm\\ACM\\2022牛客多校\\Contest7\\D.cpp","group":"local","local":true}

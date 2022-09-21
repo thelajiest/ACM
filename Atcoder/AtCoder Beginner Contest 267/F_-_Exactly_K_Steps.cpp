@@ -23,6 +23,7 @@ tuple<int, int, int> TreeDiameter(const vector<vector<int>>& t, int s = 1) {
 
     return {r.size(), *r.begin(), *r.rbegin()};
 }
+
 int main() {
     std::ios::sync_with_stdio(false);
     cin.tie(nullptr);

@@ -131,14 +131,83 @@ struct NTT {
     }
 };
 
+template <class Z, int rt>
+struct Poly {
+    vector<Z> a;
+    Poly() {}
+    Poly(int sz, Z val) { a.assign(sz, val); }
+    Poly(const vector<Z> &a) : a(a) {}
+    Poly(const initializer_list<Z> &a) : a(a) {}
+    int size() const { return a.size(); }
+    void resize(int n) { a.resize(n); }
+    Z operator[](int idx) const {
+        if (idx < size()) {
+            return a[idx];
+        } else {
+            return 0;
+        }
+    }
+    Z &operator[](int idx) { return a[idx]; }
+    Poly mulxk(int k) const {
+        auto b = a;
+        b.insert(b.begin(), k, 0);
+        return Poly(b);
+    }
+    Poly modxk(int k) const {
+        k = min(k, size());
+        return Poly(vector<Z>(a.begin(), a.begin() + k));
+    }
+    Poly divxk(int k) const {
+        if (size() <= k) {
+            return Poly();
+        }
+        return Poly(vector<Z>(a.begin() + k, a.end()));
+    }
+    friend Poly operator+(const Poly &a, const Poly &b) {
+        vector<Z> res(max(a.size(), b.size()));
+        for (int i = 0; i < int(res.size()); i++) {
+            res[i] = a[i] + b[i];
+        }
+        return Poly(res);
+    }
+    friend Poly operator-(const Poly &a, const Poly &b) {
+        vector<Z> res(max(a.size(), b.size()));
+        for (int i = 0; i < int(res.size()); i++) {
+            res[i] = a[i] - b[i];
+        }
+        return Poly(res);
+    }
+
+    friend Poly operator*(Poly a, Poly b) {
+        if (a.size() == 0 || b.size() == 0) {
+            return Poly();
+        }
+        static NTT<Z, rt> ntt;
+        return ntt.multiply(a.a, b.a);
+    }
+    friend Poly operator*(Z a, Poly b) {
+        for (int i = 0; i < int(b.size()); i++) {
+            b[i] *= a;
+        }
+        return b;
+    }
+    friend Poly operator*(Poly a, Z b) {
+        for (int i = 0; i < int(a.size()); i++) {
+            a[i] *= b;
+        }
+        return a;
+    }
+    Poly &operator+=(Poly b) { return (*this) = (*this) + b; }
+    Poly &operator-=(Poly b) { return (*this) = (*this) - b; }
+    Poly &operator*=(Poly b) { return (*this) = (*this) * b; }
+};
 int main() {
     std::ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
     constexpr int mod = 998244353;
     using Z = mint<mod>;
-    NTT<Z, 3> ntt;
-
+    using poly = Poly<Z, 3>;
     int n;
     cin >> n;
 
@@ -150,10 +219,11 @@ int main() {
         t[p].push_back(i);
     }
 
-    vector<int> siz(n + 1), son(n + 1);
+    vector<int> siz(n + 1), son(n + 1), f(n + 1);
 
     function<void(int, int)> dfs = [&](int u, int fa) {
         siz[u] = 1;
+        f[u] = fa;
         for (auto v : t[u]) {
             if (v == fa) continue;
             dfs(v, u);
@@ -162,24 +232,51 @@ int main() {
         }
     };
     dfs(1, 0);
-    vector<vector<Z>> dp(n + 1);
-    function<void(int, int)> dfs2 = [&](int u, int fa) {
-        if (son[u] && son[u] != fa) dfs2(son[u], u);
-        if (son[u]) {
-            swap(dp[u], dp[son[u]]);
-        } else
-            dp[u] = {1, 0};
-        for (auto v : t[u]) {
-            if (v == fa || v == son[u]) continue;
-            dfs2(v, u);
-            dp[u] = ntt.multiply(dp[u], dp[v]);
-            dp[u].resize(dp[u].size() + 1);
+    vector<poly> dp(n + 1);
+    function<void(int)> dfs2 = [&](int u) {
+        vector<int> lt;
+        int now = u;
+        while (now) {
+            lt.push_back(now);
+            now = son[now];
         }
-        dp[u].resize(dp[u].size() + 1);
-        dp[u][1] += Z(1);
-    };
+        for (auto it : lt) {
+            vector<poly> res;
+            for (auto v : t[it]) {
+                if (v == f[it] || v == son[it]) continue;
+                dfs2(v);
+                res.emplace_back(std::move(dp[v]));
+                res.rbegin()->resize(res.rbegin()->size() + 1);
+            }
+            function<poly(int, int)> dc = [&](int l, int r) -> poly {
+                if (r - l <= 1) {
+                    if (l == r) return {1, 0};
+                    return res[l];
+                }
+                int mid = (l + r) / 2;
+                return dc(l, mid) * dc(mid, r);
+            };
+            dp[it] = dc(0, res.size());
+        }
+        vector<poly> res;
+        for (auto &&it : lt) res.emplace_back(std::move(dp[it]));
 
-    dfs2(1, 0);
+        function<pair<poly, poly>(int, int)> dc2 =
+            [&](int l, int r) -> pair<poly, poly> {
+            if (r - l == 1) {
+                return {{0, 1}, res[l]};
+            }
+            int mid = (l + r) / 2;
+            auto [al, bl] = dc2(l, mid);
+            auto [ar, br] = dc2(mid, r);
+            return {ar * bl + al, bl * br};
+        };
+
+        auto [x, y] = dc2(0, res.size());
+        dp[u] = x + y;
+        dp[u].resize(dp[u].size() + 1);
+    };
+    dfs2(1);
     for (int i = 1; i <= n; i++) cout << dp[1][i] << '\n';
 
     return 0;

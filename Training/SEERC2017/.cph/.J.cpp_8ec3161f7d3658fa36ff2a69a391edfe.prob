@@ -1,0 +1,1 @@
+{"name":"Local: J","url":"d:\\acm\\ACM\\Training\\SEERC2017\\J.cpp","tests":[{"id":1664611551846,"input":"3\n2 2 1","output":"Win"},{"id":1664611595083,"input":"2\n4 7","output":"Lose"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\acm\\ACM\\Training\\SEERC2017\\J.cpp","group":"local","local":true}

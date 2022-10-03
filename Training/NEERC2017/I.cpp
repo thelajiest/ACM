@@ -16,7 +16,7 @@ int main() {
     pair<i64, i64> X, Y;
     X = {numeric_limits<i64>::max(), numeric_limits<i64>::min()};
     Y = X;
-    for (auto&& [x, y] : a) {
+    for (auto && [x, y] : a) {
         cin >> x >> y;
         X.first = min(X.first, x);
         X.second = max(X.second, x);

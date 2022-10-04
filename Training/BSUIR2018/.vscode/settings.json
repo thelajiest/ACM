@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "typeinfo": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "vector": "cpp",
+        "*.tcc": "cpp",
+        "valarray": "cpp"
+    }
+}

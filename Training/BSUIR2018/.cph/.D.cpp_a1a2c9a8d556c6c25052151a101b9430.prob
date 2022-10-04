@@ -1,0 +1,1 @@
+{"name":"Local: D","url":"d:\\acm\\ACM\\Training\\BSUIR2018\\D.cpp","tests":[{"id":1664790942482,"input":"5 5\n01101\n11101\n01110\n00000\n11110","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\acm\\ACM\\Training\\BSUIR2018\\D.cpp","group":"local","local":true}

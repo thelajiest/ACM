@@ -178,7 +178,6 @@ int main() {
     while (q--) {
         int u, v;
         cin >> u >> v;
-
         cout << CactusQuery<i64>(hld, bct, u, v) << '\n';
     }
 

@@ -1,0 +1,1 @@
+{"name":"Local: F","url":"d:\\acm\\ACM\\Training\\ECFinal2016\\F.cpp","tests":[{"id":1665071897494,"input":"3\n2\naba\nbab\n3\nqnu\ncvbb\nbnu\n3\na\naa\naaa","output":"Case #1: aba\nCase #2: q\nCase #3: Impossible"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\acm\\ACM\\Training\\ECFinal2016\\F.cpp","group":"local","local":true}

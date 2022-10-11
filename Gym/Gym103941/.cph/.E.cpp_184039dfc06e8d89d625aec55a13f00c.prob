@@ -1,0 +1,1 @@
+{"name":"Local: E","url":"e:\\acm\\ACM\\Gym\\Gym103941\\E.cpp","tests":[{"id":1665234587750,"input":"22\naaabaacccdccbcccaadaaa","output":"aaaaacccccccaaaaa"},{"id":1665234631108,"input":"17\naaaaaaaaaaaaaaaaa","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\acm\\ACM\\Gym\\Gym103941\\E.cpp","group":"local","local":true}

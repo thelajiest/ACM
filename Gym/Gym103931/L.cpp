@@ -53,54 +53,60 @@ struct mint {
 
 constexpr int mod = 998244353;
 using Z = mint<mod>;
-constexpr int N = 3E5;
 
+struct TrieNode {
+    TrieNode() { id = 0, dep = 0, nxt = array<int, 26>(); };
+    TrieNode(int _id, int _dep) : id(_id), dep(_dep) {}
+    int id;
+    int dep;
+    array<int, 26> nxt = {};
+    int &operator[](const int x) { return this->nxt[x]; }
+};
+constexpr int N = 3E5;
+template <class Node>
 struct trie {
-    vector<array<int, 26>> nxt;
-    vector<int> len;
-    int cnt = 0;
-    void clear() {
-        for (int i = 0; i <= cnt; i++) {
-            nxt[i].fill(0);
-        }
-        cnt = 0;
-    }
+    vector<Node> tr;
+    trie() { tr.push_back(Node()); };
+
     int add(const string &s) {
         int n = s.size();
         int p = 0;
         for (int i = 0; i < n; i++) {
             int c = s[i] - 'a';
-            if (!nxt[p][c]) {
-                nxt[p][c] = ++cnt;
-                len[nxt[p][c]] = len[p] + 1;
+            if (!tr[p][c]) {
+                tr[p][c] = tr.size();
+                tr.emplace_back(tr[p][c], tr[p].dep + 1);
             }
-            p = nxt[p][c];
+            p = tr[p][c];
         }
         return p;
     }
+
+    int size() const { return tr.size(); }
 };
-struct ACAutomaton : public trie {
+
+template <class Node>
+struct ACAutomaton : public trie<Node> {
     vector<int> fail;
-    ACAutomaton(int _sz) {
-        nxt.resize(_sz);
-        len.reserve(_sz);
-    };
+    ACAutomaton() { this->tr.push_back(Node()); };
 
     void BuildAC() {
-        fail.resize(cnt + 1);
+        fail.resize(this->tr.size());
         queue<int> Q;
         for (int i = 0; i < 26; i++)
-            if (nxt[0][i]) Q.push(nxt[0][i]);
+            if (this->tr[0][i]) Q.push(this->tr[0][i]);
         while (!Q.empty()) {
             int u = Q.front();
             Q.pop();
             for (int i = 0; i < 26; i++) {
-                if (nxt[u][i])
-                    fail[nxt[u][i]] = nxt[fail[u]][i], Q.push(nxt[u][i]);
+                if (this->tr[u][i])
+                    fail[this->tr[u][i]] = this->tr[fail[u]][i],
+                    Q.push(this->tr[u][i]);
                 else
-                    nxt[u][i] = nxt[fail[u]][i];
+                    this->tr[u][i] = this->tr[fail[u]][i];
             }
         }
+        return;
     }
 };
 
@@ -112,7 +118,7 @@ int main() {
     cin >> s;
     int n = s.size();
 
-    ACAutomaton ac(N);
+    ACAutomaton<TrieNode> ac;
 
     int m;
     cin >> m;
@@ -124,9 +130,10 @@ int main() {
         cin >> val[p];
     }
     ac.BuildAC();
-    vector<int> to(ac.cnt + 1);
-    vector<vector<int>> adj(ac.cnt + 1);
-    for (int i = 0; i <= ac.cnt; i++)
+
+    vector<int> to(ac.size());
+    vector<vector<int>> adj(ac.size());
+    for (int i = 0; i < ac.size(); i++)
         if (i != ac.fail[i]) adj[ac.fail[i]].push_back(i);
 
     queue<int> q;
@@ -142,15 +149,16 @@ int main() {
             q.push(v);
         }
     }
+
     vector<Z> dp(n + 1, 0);
     dp[0] = Z(1);
     int p = 0;
     for (int i = 1; i <= n; i++) {
-        p = ac.nxt[p][s[i - 1] - 'a'];
+        p = ac.tr[p][s[i - 1] - 'a'];
         int now = p;
         dp[i] = dp[i - 1];
         while (now != 0) {
-            if (i >= ac.len[now]) dp[i] += dp[i - ac.len[now]] * val[now];
+            if (i >= ac.tr[now].dep) dp[i] += dp[i - ac.tr[now].dep] * val[now];
             now = to[now];
         }
     }

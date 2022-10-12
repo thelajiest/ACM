@@ -6,7 +6,7 @@ using i64 = long long;
 int main() {
     std::ios::sync_with_stdio(false);
     cin.tie(nullptr);
-
+    
     int n;
     cin >> n;
     if (n == 3) {

@@ -3,6 +3,12 @@
         "typeinfo": "cpp",
         "iostream": "cpp",
         "ostream": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "array": "cpp",
+        "fstream": "cpp",
+        "optional": "cpp",
+        "shared_mutex": "cpp",
+        "sstream": "cpp",
+        "tuple": "cpp"
     }
 }

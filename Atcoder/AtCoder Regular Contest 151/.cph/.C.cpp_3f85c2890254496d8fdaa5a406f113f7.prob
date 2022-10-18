@@ -1,0 +1,1 @@
+{"name":"Local: C","url":"d:\\acm\\ACM\\Atcoder\\AtCoder Regular Contest 151\\C.cpp","tests":[{"id":1665991106361,"input":"5\n1 1 2 2\n3 4 5 7\n8 9 15 18\n12 21 14 24\n36 60 48 66\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\acm\\ACM\\Atcoder\\AtCoder Regular Contest 151\\C.cpp","group":"local","local":true}

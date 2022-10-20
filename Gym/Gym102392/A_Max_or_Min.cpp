@@ -31,6 +31,7 @@ struct SegmentTree {
             seg[k] = seg[2 * k] + seg[2 * k + 1];
         }
     }
+
     void update(int k, const Info &x) {
         k += size;
         seg[k] = x;

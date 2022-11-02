@@ -1,0 +1,1 @@
+{"name":"Local: D","url":"d:\\acm\\ACM\\Gym\\Gym103957\\D.cpp","tests":[{"id":1667299267697,"input":"2\n0.05 0.02\n2 1\n","output":"Case #1: 0.01\nCase #2: 0.01"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\acm\\ACM\\Gym\\Gym103957\\D.cpp","group":"local","local":true}

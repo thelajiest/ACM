@@ -120,7 +120,7 @@ vector<T> OsakDivisors(T x) {
             x /= p;
             cnt++;
         }
-        lt.emplace_back(p, cnt);
+        if (cnt >= 1) lt.emplace_back(p, cnt);
     }
     if (x > 1) lt.emplace_back(x, 1);
     vector<T> div;

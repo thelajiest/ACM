@@ -120,11 +120,11 @@ signed main() {
         }
         st.push_back({se.begin(), se.end()});
     }
-    if (st.size() == 0 && ones != n) {
+    if (st.back().size() == 0 && ones != n) {
         cout << "-1";
         return 0;
     }
-    auto ans = *st..back() begin();
+    auto ans = *st.back().begin();
     int t = ans.size();
     for (auto p : ans) {
         cout << p << " ";

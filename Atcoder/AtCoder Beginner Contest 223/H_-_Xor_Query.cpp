@@ -28,7 +28,7 @@ struct LinearBasis {
 };
 using Lb = LinearBasis<L>;
 /*
-    O(nlog^2Aloglogn+qlogn)
+    O(nlog^2A+q(logn+log^2A))
 */
 Lb op(const Lb &a, const Lb &b) {
     Lb res = a;

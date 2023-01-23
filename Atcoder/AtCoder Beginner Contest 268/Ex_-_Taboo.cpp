@@ -11,6 +11,7 @@ struct TrieNode {
     array<int, 26> nxt = {};
     int& operator[](const int x) { return this->nxt[x]; }
 };
+
 template <class Node>
 struct trie {
     vector<Node> tr;
@@ -36,7 +37,7 @@ struct trie {
 template <class Node>
 struct ACAutomaton : public trie<Node> {
     vector<int> fail;
-    ACAutomaton() { this->tr.push_back(Node()); };
+    ACAutomaton(){};
 
     void BuildAC() {
         fail.resize(this->tr.size());
@@ -66,20 +67,26 @@ int main() {
 
     int m;
     cin >> m;
+
     ACAutomaton<TrieNode> ac;
+
     vector<int> pos(m + 1);
     for (int i = 1; i <= m; i++) {
         string res;
         cin >> res;
         pos[i] = ac.add(res);
     }
+
     ac.BuildAC();
+
     vector<int> vis(ac.size());
     for (int i = 1; i <= m; i++) vis[pos[i]] = 1;
+
     vector<vector<int>> adj(ac.size());
     for (int i = 0; i < ac.size(); i++) {
         if (ac.fail[i] != i) adj[ac.fail[i]].push_back(i);
     }
+
     vector<int> to(ac.size(), -1);
     queue<int> q;
     q.push(0);
@@ -105,13 +112,9 @@ int main() {
     }
 
     sort(seg.begin(), seg.end(),
-         [&](const pair<int, int>& a, const pair<int, int>& b) {
-             return a.second < b.second;
-         });
+         [&](const auto& a, const auto& b) { return a.second < b.second; });
 
-    int ans = 0;
-
-    int nowr = -1;
+    int ans{0}, nowr{-1};
     for (auto [l, r] : seg) {
         if (l > nowr) {
             nowr = max(nowr, r);

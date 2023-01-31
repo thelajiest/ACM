@@ -281,25 +281,43 @@ int main() {
     // EGF: exp A(x) = 2*A(x) - x + 1.
     // 2A(x) - exp A(x) + 1 = x
     // [x^n] A(x) = 1/n * [x^(n-1)] (x/2x-e^x+1)^n
-    //
 
-    std::vector<Z> fac(n + 1), invf(n + 1);
-    fac[0] = 1;
-    for (int i = 1; i <= n; i++) {
-        fac[i] = fac[i - 1] * Z(i);
+    // std::vector<Z> fac(n + 1), invf(n + 1);
+    // fac[0] = 1;
+    // for (int i = 1; i <= n; i++) {
+    //     fac[i] = fac[i - 1] * Z(i);
+    // }
+    // for (int i = 0; i <= n; i++) {
+    //     invf[i] = fac[i].inverse();
+    // }
+
+    // poly e = invf;
+    // poly d = {1, 2};
+    // d -= e;
+    // d = d.divxk(1);
+    // d = d.inv(n + 1);
+    // d = d.pow(n, n + 1);
+
+    // auto ans = d[n - 1] / Z(n);
+
+    // for (int i = 1; i <= n; i++) {
+    //     ans *= Z(i);
+    // }
+
+    // std::cout << Z(2) * (ans - Z(1)) << std::endl;
+
+    // Also can be down by Newton's Method
+
+    poly A = {0};
+
+    int k = 1;
+    while (k <= n) {
+        k *= 2;
+        A = (A - (A.exp(k) - 2 * A + poly{-1, 1}) * (A.exp(k) - poly{2}).inv(k))
+                .modxk(k);
     }
-    for (int i = 0; i <= n; i++) {
-        invf[i] = fac[i].inverse();
-    }
 
-    poly e = invf;
-    poly d = {1, 2};
-    d -= e;
-    d = d.divxk(1);
-    d = d.inv(n + 1);
-    d = d.pow(n, n + 1);
-
-    auto ans = d[n - 1] / Z(n);
+    auto ans = A[n];
 
     for (int i = 1; i <= n; i++) {
         ans *= Z(i);

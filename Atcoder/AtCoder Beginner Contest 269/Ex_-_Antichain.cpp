@@ -259,14 +259,27 @@ int main() {
             dp[it] = dc(0, res.size());
         }
         vector<poly> res;
-        for (auto &&it : lt) res.emplace_back(std::move(dp[it]));
+        for (auto it : lt) {
+            res.emplace_back(std::move(dp[it]));
+        }
 
         function<pair<poly, poly>(int, int)> dc2 =
             [&](int l, int r) -> pair<poly, poly> {
             if (r - l == 1) {
                 return {{0, 1}, res[l]};
             }
+            int cntSiz = 0;
+            for (int i = l; i < r; i++) cntSiz += (int)res[i].size();
+
             int mid = (l + r) / 2;
+            int sumSiz = 0;
+            for (int i = r - 1; i >= l + 1; i--) {
+                sumSiz += (int)res[i].size();
+                if (sumSiz * 2 > cntSiz) {
+                    mid = i;
+                    break;
+                }
+            }
             auto [al, bl] = dc2(l, mid);
             auto [ar, br] = dc2(mid, r);
             return {ar * bl + al, bl * br};

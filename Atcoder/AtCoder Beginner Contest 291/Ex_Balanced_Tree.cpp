@@ -1,89 +1,61 @@
 #include <bits/stdc++.h>
 
-using namespace std;
-
-typedef vector<int>::iterator IT;
-
-struct Edge {
-    int to, nxt, val;
-
-    Edge() {}
-
-    Edge(int to, int nxt, int val) : to(to), nxt(nxt), val(val) {}
-} e[300010];
-
-int head[150010], cnt;
-
-void addedge(int u, int v, int val) {
-    e[++cnt] = Edge(v, head[u], val);
-    head[u] = cnt;
-}
-
-int siz[150010], son[150010];
-bool vis[150010];
-
-int tot, lasttot;
-int maxp, root;
-
-void getG(int now, int fa) {
-    siz[now] = 1;
-    son[now] = 0;
-    for (int i = head[now]; i; i = e[i].nxt) {
-        int vs = e[i].to;
-        if (vs == fa || vis[vs]) continue;
-        getG(vs, now);
-        siz[now] += siz[vs];
-        son[now] = max(son[now], siz[vs]);
-    }
-    son[now] = max(son[now], tot - siz[now]);
-    if (son[now] < maxp) {
-        maxp = son[now];
-        root = now;
-    }
-}
-
-struct Node {
-    int fa;
-    vector<int> anc;
-    vector<int> child;
-} nd[150010];
-
-int build(int now, int ntot) {
-    tot = ntot;
-    maxp = 0x7f7f7f7f;
-    getG(now, 0);
-    int g = root;
-    vis[g] = 1;
-    for (int i = head[g]; i; i = e[i].nxt) {
-        int vs = e[i].to;
-        if (vis[vs]) continue;
-        int tmp = build(vs, ntot - son[vs]);
-        nd[tmp].fa = now;
-        nd[now].child.push_back(tmp);
-    }
-    return g;
-}
-
-int virtroot;
+using i64 = std::int64_t;
 
 int main() {
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+
     int n;
-    cin >> n;
-    for (int i = 1; i < n; i++) {
-        int u, v, val;
-        cin >> u >> v;
-        val = 1;
-        addedge(u, v, val);
-        addedge(v, u, val);
+    std::cin >> n;
+
+    std::vector<std::vector<int>> adj(n);
+
+    for (int i = 0; i < n - 1; i++) {
+        int x, y;
+        std::cin >> x >> y;
+        x--, y--;
+        adj[x].push_back(y);
+        adj[y].push_back(x);
     }
-    virtroot = build(1, n);
-    std::vector<int> ans(n + 1);
-    ans[virtroot] = -1;
-    for (int i = 1; i <= n; i++) {
-        if (i == virtroot) continue;
-        ans[i] = nd[i].fa;
-    }
-    for (int i = 1; i <= n; i++) {
-        std::cout << ans[i] << " \n"[i == n];
-    }
+
+    std::vector<int> siz(n), vis(n), par(n, -2);
+
+    auto countSiz = [&](auto&& self, int u, int fa) -> int {
+        siz[u] = 1;
+        for (auto v : adj[u]) {
+            if (vis[v] || v == fa) continue;
+            siz[u] += self(self, v, u);
+        }
+        return siz[u];
+    };
+
+    auto searchCentroid = [&](auto&& self, int u, int fa, int halfSiz) -> int {
+        for (auto v : adj[u]) {
+            if (v == fa || vis[v]) continue;
+            if (siz[v] > halfSiz) return self(self, v, u, halfSiz);
+        }
+        return u;
+    };
+
+    auto buildDfs = [&](auto&& self, int u) -> int {
+        vis[u] = 1;
+        for (auto v : adj[u]) {
+            if (vis[v]) continue;
+            int centroid = searchCentroid(searchCentroid, v, -1,
+                                          countSiz(countSiz, v, -1) / 2);
+            auto rt = self(self, centroid);
+            par[rt] = u;
+        }
+        return u;
+    };
+
+    int S =
+        searchCentroid(searchCentroid, 0, -1, countSiz(countSiz, 0, -1) / 2);
+
+    buildDfs(buildDfs, S);
+
+    for (int i = 0; i < n; i++) std::cout << par[i] + 1 << " \n"[i == n - 1];
+
+    return 0;
 }

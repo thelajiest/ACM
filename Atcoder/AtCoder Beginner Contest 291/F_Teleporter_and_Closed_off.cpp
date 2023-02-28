@@ -137,13 +137,6 @@ int main() {
             }
         }
     }
-    // for (int i = 1; i <= m; i++) {
-    //     x = read(), y = read();
-    //     LL w = read();
-    //     d[y]++;
-    //     Addedge(x, y, w);
-    //     Addedgef(y, x, w);
-    // }
     memset(d1, 0x3f, sizeof(d1));
     memset(vis, 0, sizeof(vis));
     DP(s, d1, head, e);
@@ -165,12 +158,3 @@ int main() {
 
     return 0;
 }
-/*
-5 6 1 5
-1 3 4
-1 2 1
-2 3 1
-2 4 1
-3 5 1
-4 3 1
-*/

@@ -28,7 +28,8 @@ void solve() {
     std::mt19937_64 mrand(
         std::chrono::steady_clock::now().time_since_epoch().count());
 
-    const u64 c = std::uniform_int_distribution<u64>(0, 1000)(mrand);
+    const u64 c = std::uniform_int_distribution<u64>(
+        0, std::numeric_limits<u64>::max())(mrand);
     const u64 RANDOM = std::uniform_int_distribution<u64>(
         0, std::numeric_limits<u64>::max())(mrand);
 

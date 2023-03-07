@@ -3,6 +3,7 @@ using namespace std;
 using i64 = long long;
 using VI = vector<int>;
 using pii = pair<int, int>;
+
 int main() {
     std::ios::sync_with_stdio(false);
     cin.tie(NULL);
@@ -10,7 +11,7 @@ int main() {
     int _;
     cin >> _;
     while (_--) {
-        int n;
+        int n = 1;
         cin >> n;
         vector<int> a(n);
         for (auto&& it : a) cin >> it;

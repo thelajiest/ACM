@@ -11,7 +11,7 @@ int main() {
     int _;
     cin >> _;
     while (_--) {
-        int n = 2;
+        int n = 1;
         cin >> n;
         vector<int> a(n);
         for (auto&& it : a) cin >> it;

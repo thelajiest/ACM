@@ -73,16 +73,20 @@ int main() {
     int L, R;
     std::cin >> L >> R;
 
+    std::unordered_map<int, Z> mp;
     auto dfs = [&](auto &&self, int l, int r) -> Z {
+        if (l >= r) return (l == r && r == 1);
+        if (mp.count(l + r)) return mp[l + r];
         Z ret = power<Z>(2, r - l + 1) - Z(1);
         for (int lo = 2, hi; lo <= r; lo = hi + 1) {
-            if (r / lo != 0 && l / lo != 0)
-                hi = std::min(r / (r / lo), l / (l / lo));
-            else
-                hi = r;
-            ret -= Z(hi - lo + 1) * self(self, l / lo, r / lo);
+            hi = r;
+
+            if (r / lo != 0) hi = std::min(hi, r / (r / lo));
+            if ((l - 1) / lo != 0) hi = std::min(hi, (l - 1) / ((l - 1) / lo));
+
+            ret -= Z(hi - lo + 1) * self(self, (l - 1) / lo + 1, r / lo);
         }
-        return ret;
+        return mp[l + r] = ret;
     };
 
     std::cout << dfs(dfs, L, R) << std::endl;

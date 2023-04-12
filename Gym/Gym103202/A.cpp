@@ -167,10 +167,9 @@ bool intersect(const Segment &s, const Segment &t) {
            ccw(t.a, t.b, s.a) * ccw(t.a, t.b, s.b) <= 0;
 }
 
-bool onSegment(Point s, Point e, Point p) {
-    return p.cross(s, e) == 0 && dot((s - p), (e - p)) <= 0;
-}
 std::vector<Point> segInter(const Segment &sa, const Segment &sb) {
+    // if no intersect point return {}
+    // if inf intersect points return two end point
     auto a = sa.a, b = sa.b;
     auto c = sb.a, d = sb.b;
     auto oa = c.cross(d, a), ob = c.cross(d, b), oc = a.cross(b, c),
@@ -178,10 +177,10 @@ std::vector<Point> segInter(const Segment &sa, const Segment &sb) {
     if (sgn(oa) * sgn(ob) < 0 && sgn(oc) * sgn(od) < 0)
         return {(a * ob - b * oa) / (ob - oa)};
     std::set<Point> s;
-    if (onSegment(c, d, a)) s.insert(a);
-    if (onSegment(c, d, b)) s.insert(b);
-    if (onSegment(a, b, c)) s.insert(c);
-    if (onSegment(a, b, d)) s.insert(d);
+    if (intersect(Segment(c, d), a)) s.insert(a);
+    if (intersect(Segment(c, d), b)) s.insert(b);
+    if (intersect(Segment(a, b), c)) s.insert(c);
+    if (intersect(Segment(a, b), d)) s.insert(d);
     return {begin(s), end(s)};
 }
 
@@ -330,6 +329,7 @@ int containsHullPointFast(const Polygon &p, const Point &a) {
 }
 
 Points halfplaneIntersection(std::vector<Line> L, const T inf = 1e9) {
+    // left half plane
     Point box[4] = {Point(inf, inf), Point(-inf, inf), Point(-inf, -inf),
                     Point(inf, -inf)};
     for (int i = 0; i < 4; i++) {

@@ -64,8 +64,7 @@ int main() {
 
     // dp[nowA][nowB][x]
     Z pro = Z(p).inverse() * Z(q).inverse();
-    std::vector<std::vector<std::vector<Z>>> dp(
-        n + 2, std::vector<std::vector<Z>>(n + 2, std::vector<Z>(n + 2)));
+    std::vector dp(n + 2, std::vector(n + 2, std::vector(n + 2, Z(0))));
 
     dp[a][b][0] = 1;
 

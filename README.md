@@ -1,3 +1,3 @@
 # ACM
-Some Codes of Competitive Programming
+Code Library of Competitive Programming
 

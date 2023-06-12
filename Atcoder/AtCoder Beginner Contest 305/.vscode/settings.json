@@ -1,5 +1,7 @@
 {
+    "cph.general.onceMaintainerMessage": false,
     "files.associations": {
+        "iostream": "cpp",
         "__bit_reference": "cpp",
         "__bits": "cpp",
         "__config": "cpp",
@@ -51,7 +53,6 @@
         "iomanip": "cpp",
         "ios": "cpp",
         "iosfwd": "cpp",
-        "iostream": "cpp",
         "istream": "cpp",
         "latch": "cpp",
         "limits": "cpp",
@@ -107,6 +108,5 @@
         "stacktrace": "cpp",
         "stop_token": "cpp",
         "syncstream": "cpp"
-    },
-    "cph.general.onceMaintainerMessage": false
+    }
 }

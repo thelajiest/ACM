@@ -1,0 +1,1 @@
+{"name":"Local: 1005","url":"/Users/yuri3/Work/ACM/2023牛客多校/2023杭电多校/Contest1/1005.cpp","tests":[{"id":1689654932263,"input":"2\n2 2\nab \nba\n1\n1 2\n4 3\naab\nbaa\nbba\nbab\n6\n1 2\n1 3\n1 4\n2 3\n2 4\n3 4","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/yuri3/Work/ACM/2023牛客多校/2023杭电多校/Contest1/1005.cpp","group":"local","local":true}

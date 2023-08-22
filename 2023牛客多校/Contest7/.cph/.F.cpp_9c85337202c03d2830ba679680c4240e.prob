@@ -1,0 +1,1 @@
+{"name":"Local: F","url":"/Users/yuri3/Work/ACM/2023牛客多校/Contest7/F.cpp","tests":[{"id":1691401203403,"input":"2 1 2","output":"2"},{"id":1691401259557,"input":"2 3 2","output":"24"},{"id":1691401418769,"input":"2 2 2","output":"8"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/yuri3/Work/ACM/2023牛客多校/Contest7/F.cpp","group":"local","local":true}

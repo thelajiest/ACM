@@ -1,11 +1,15 @@
 #include <bits/stdc++.h>
+
 using i64 = std::int64_t;
 namespace Geometry {
-using T = i64;
-constexpr T eps = 0;
 
-// using T = double;
-// constexpr T eps = 1E-10;
+using T = long double;
+constexpr T eps = 1E-12;
+
+inline T abs(T x) {
+    if (x < 0) return -x;
+    return x;
+}
 
 bool equal(const T &x, const T &y) { return abs(x - y) <= eps; }
 int sgn(T x) { return (x > 0) - (x < 0); }
@@ -66,12 +70,12 @@ struct Point {
 };
 bool arg_cmp(const Point &l, const Point &r) { return l.arg_cmp(r); }
 std::ostream &operator<<(std::ostream &os, const Point &p) {
-    return os << p.x << " " << p.y;
+    return os << (double)p.x << " " << (double)p.y;
 }
-std::istream &operator>>(std::istream &is, Point &p) {
-    is >> p.x >> p.y;
-    return is;
-}
+// std::istream &operator>>(std::istream &is, Point &p) {
+//     is >> p.x >> p.y;
+//     return is;
+// }
 
 struct Line {
     Point a, b;
@@ -92,27 +96,12 @@ struct Line {
         auto t = (b - a).cross(r - a);
         return t > eps ? 1 : t < -eps ? -1 : 0;
     }
-
-    friend std::ostream &operator<<(std::ostream &os, Line &ls) {
-        return os << "{"
-                  << "(" << ls.a.x << ", " << ls.a.y << "), (" << ls.b.x << ", "
-                  << ls.b.y << ")}";
-    }
 };
-std::istream &operator>>(std::istream &is, Line &p) { return is >> p.a >> p.b; }
 
 struct Segment : Line {
     Segment() = default;
     Segment(Point a, Point b) : Line(a, b) {}
 };
-
-std::ostream &operator<<(std::ostream &os, Segment &p) {
-    return os << p.a << " to " << p.b;
-}
-std::istream &operator>>(std::istream &is, Segment &p) {
-    is >> p.a >> p.b;
-    return is;
-}
 
 struct Circle {
     Point p;
@@ -370,36 +359,52 @@ Points halfplaneIntersection(std::vector<Line> L, const T inf = 1e9) {
     return ret;
 }
 }  // namespace Geometry
+using namespace Geometry;
 int main() {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
 
-    int n, m, q;
-    std::cin >> n >> m >> q;
+    int n, m;
+    std::cin >> n >> m;
+    Points a(n), b(m);
 
-    Geometry::Polygon a(n), b(m);
     for (auto &v : a) {
-        std::cin >> v;
+        double x, y;
+        std::cin >> x >> y;
+        v.x = x, v.y = y;
     }
     for (auto &v : b) {
-        std::cin >> v;
-        v.x = -v.x;
-        v.y = -v.y;
+        double x, y;
+        std::cin >> x >> y;
+        v.x = x, v.y = y;
     }
 
-    a = Geometry::convexHull(a);
-    b = Geometry::convexHull(b);
-    auto sum = Geometry::minkowskiSum(a, b);
+    std::vector<Line> cv;
 
-    while (q--) {
-        Geometry::Point v;
-        std::cin >> v;
-        if (Geometry::containsHullPointFast(sum, v) == 0) {
-            std::cout << 0 << '\n';
-        } else {
-            std::cout << 1 << '\n';
-        }
+    int tp = 0;
+    for (int j = 0; j < n; j++) {
+        // auto cura = a[j] - b[tp], curb = a[(j + 1) % n] - b[0];
+
+        while (Line(a[j] - b[tp], a[(j + 1) % n] - b[tp])
+                   .toleft(a[j] - b[(tp + 1) % m]) == 1)
+            tp = (tp + 1) % m;
+        // for (int i = 1; i < m; i++) {
+        //     if (Line(cura, curb).toleft(a[j] - b[i]) == 1) {
+        //         cura = a[j] - b[i];
+        //         curb = a[(j + 1) % n] - b[i];
+        //     }
+        // }
+
+        cv.emplace_back(a[j] - b[tp], a[(j + 1) % n] - b[tp]);
     }
+
+    auto hp = halfplaneIntersection(cv, 1E30);
+    assert(hp.size() >= 3);
+    auto bmax = minkowskiSum(b, hp);
+
+    auto area = area2(bmax) / 2.0;
+    std::cout << std::fixed << std::setprecision(10) << (long double)area
+              << std::endl;
 
     return 0;
 }

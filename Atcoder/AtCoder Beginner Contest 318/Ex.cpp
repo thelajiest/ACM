@@ -453,11 +453,30 @@ struct Poly {
         return ret;
     }
 };
+
 int main() {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
 
     int n;
     std::cin >> n;
+
+    std::vector<Z> fac(n + 1), invf(n + 1);
+    fac[0] = 1;
+    for (int i = 1; i <= n; i++) fac[i] = fac[i - 1] * Z(i);
+    for (int i = 0; i <= n; i++) invf[i] = fac[i].inverse();
+
+    /*
+
+    */
+    std::vector<Z> _f(n + 1, 0);
+    for (int i = 1; i <= n; i++) _f[i] = Z(1LL * i * i).inverse();
+    Poly f(_f);
+
+    f = f.exp(n + 1);
+
+    Z ans = fac[n] * fac[n] * (Z(1) - f[n] * 2) + fac[n];
+    std::cout << ans << std::endl;
+
     return 0;
 }

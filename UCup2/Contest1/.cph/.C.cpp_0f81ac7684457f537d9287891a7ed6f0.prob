@@ -1,0 +1,1 @@
+{"name":"Local: C","url":"/Users/yuri3/Work/ACM/UCup2/Contest1/C.cpp","tests":[{"id":1694158077079,"input":"4\n2\nadd 1\nblt 5 1\n3\nadd 252\nadd 1\nbgt 252 2\n2\nadd 2\nbne 7 1\n3\nadd 1\nbne 252 1\nbeq 252 1","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/yuri3/Work/ACM/UCup2/Contest1/C.cpp","group":"local","local":true}

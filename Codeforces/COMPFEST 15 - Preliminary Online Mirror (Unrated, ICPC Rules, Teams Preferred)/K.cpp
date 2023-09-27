@@ -169,6 +169,7 @@ int main() {
         cnt[x].push_back(k);
     }
 
+    std::vector<int> a;
     std::vector<kthLiChaoTree<i64, 2>> segTree;
     for (int x = 0; x < n; x++) {
         segTree.emplace_back(cnt[x]);

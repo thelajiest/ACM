@@ -1,0 +1,1 @@
+{"name":"Local: B","url":"/Users/yuri3/Work/ACM/Gym/Gym104614/B.cpp","tests":[{"id":1695371672808,"input":"100 5\n10 20 40 60 85\n","output":""},{"id":1695372022143,"input":"100 5\n10 20 30 40 50","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/yuri3/Work/ACM/Gym/Gym104614/B.cpp","group":"local","local":true}

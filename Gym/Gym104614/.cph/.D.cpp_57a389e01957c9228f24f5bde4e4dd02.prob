@@ -1,0 +1,1 @@
+{"name":"Local: D","url":"/Users/yuri3/Work/ACM/Gym/Gym104614/D.cpp","tests":[{"id":1695370096545,"input":"TATATGCTCT\n4\n1 10\n6 10\n6 6\n1 1","output":"TACG\nTCGA\nGATC"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/yuri3/Work/ACM/Gym/Gym104614/D.cpp","group":"local","local":true}

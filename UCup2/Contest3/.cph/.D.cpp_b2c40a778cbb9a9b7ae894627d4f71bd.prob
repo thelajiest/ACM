@@ -1,0 +1,1 @@
+{"name":"Local: D","url":"/Users/yuri3/Work/ACM/UCup2/Contest3/D.cpp","tests":[{"id":1696088252765,"input":"3 2 \n1 1 0","output":""},{"id":1696088330124,"input":"10 \n1 1 1 1 1 1 1 1 1 1","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/yuri3/Work/ACM/UCup2/Contest3/D.cpp","group":"local","local":true}

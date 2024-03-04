@@ -117,5 +117,8 @@ signed main() {
         }
     }
 
+    std::cout << "hello world" << std::endl;
+
+    std::vector<int> a;
     return 0;
 }
